@@ -20,14 +20,15 @@ You should create the following views:
 
 **CREATE view popular_author as SELECT au_ar.slug,l.path,au_ar.name,count(*) as num FROM author_articles AS au_ar LEFT JOIN log AS l ON POSITION(au_ar.slug IN l.path)>0 where l.status='200 OK' group by au_ar.slug,l.path,au_ar.name order by au_ar.name;**
 
-3. This view gives the total requests with a group by on date
+3.This view gives the total requests with a group by on date
 
 **CREATE VIEW TOTAL_REQUESTS AS SELECT date(time),count(date(time)) as num FROM log GROUP BY date(time);**
 
-4. This view gives the error requests group by date
+4.This view gives the error requests group by date
+
 **CREATE VIEW ERROR_REQUESTS AS SELECT date(time),count(date(time)) as err_requests FROM log WHERE status!='200 OK' GROUP BY date(time)**
 
-5. This view gives the error rate on each date
+5.This view gives the error rate on each date
 
 **CREATE view ERROR_RATE AS SELECT a.date,a.num,e.err_requests,(CAST (e.err_requests AS DOUBLE PRECISION)/a.num)*100 as err_rate FROM TOTAL_REQUESTS a,ERROR_REQUESTS e WHERE a.date = e.date;**
 
