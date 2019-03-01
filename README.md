@@ -9,7 +9,7 @@ Download the code with git clone https://github.com/mani11/udacity_log_analysis.
 
 ### Prerequisites
 
-**You should have python 3 installed.** 
+**You should have python3 installed.** 
 
 _Download link_:https://www.python.org/downloads/
 
@@ -42,7 +42,8 @@ The PostgreSQL database server will automatically be started inside the VM. You 
 **Download the data**
 
 Next, download the data <a href=https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip.>here</a> You will need to unzip this file after downloading it. The file inside is called newsdata.sql. Put this file into the vagrant directory, which is shared with your virtual machine.
-To load the data, cd into the vagrant directory and use the command psql -d news -f newsdata.sql.
+
+To load the data, cd into the vagrant directory and use the command **_psql -d news -f newsdata.sql__**_.
 
 **Creating Views**
 
@@ -66,7 +67,7 @@ You should create the following views:
 
 5.This view gives the error rate on each date
 
-**CREATE view ERROR_RATE AS SELECT a.date,a.num,e.err_requests,(CAST (e.err_requests AS DOUBLE PRECISION)/a.num)*100 as err_rate FROM TOTAL_REQUESTS a,ERROR_REQUESTS e WHERE a.date = e.date;**
+**CREATE view ERROR_RATE AS SELECT a.date,a.num,e.err_requests,(CAST (e.err_requests AS DOUBLE PRECISION)/a.num) * 100 as err_rate FROM TOTAL_REQUESTS a,ERROR_REQUESTS e WHERE a.date = e.date;**
 
 ### Usage
 To run the code type the following command
