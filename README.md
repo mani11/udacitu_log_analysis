@@ -5,85 +5,41 @@ It uses postgre and python
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Download the code with git clone https://github.com/mani11/udacity_log_analysis.git
 
 ### Prerequisites
+You should have the newsdata.sql, python and postgre.
 
-What things you need to install the software and how to install them
+You should create the following views:
 
-```
-Give examples
-```
+1.This view is the join of articles and authors table. It has the information about the author id, author name, num of articles written by the author and the slug of the articles.
 
-### Installing
+**CREATE view author_articles as SELECT a.author,a.slug,count(author) as num_of_articles,au.name FROM articles as a JOIN authors as au ON a.author = au.id group by author,a.slug,au.name;**
 
-A step by step series of examples that tell you how to get a development env running
+2.This view joins the above view _author_articles_ and _log table_ to give author name,articles written by them and the number of views for each article
 
-Say what the step will be
+**CREATE view popular_author as SELECT au_ar.slug,l.path,au_ar.name,count(*) as num FROM author_articles AS au_ar LEFT JOIN log AS l ON POSITION(au_ar.slug IN l.path)>0 where l.status='200 OK' group by au_ar.slug,l.path,au_ar.name order by au_ar.name;**
 
-```
-Give the example
-```
+3.This view gives the total requests with a group by on date
 
-And repeat
+**CREATE VIEW TOTAL_REQUESTS AS SELECT date(time),count(date(time)) as num FROM log GROUP BY date(time);**
 
-```
-until finished
-```
+4.This view gives the error requests group by date
 
-End with an example of getting some data out of the system or using it for a little demo
+**CREATE VIEW ERROR_REQUESTS AS SELECT date(time),count(date(time)) as err_requests FROM log WHERE status!='200 OK' GROUP BY date(time)**
 
-## Running the tests
+5.This view gives the error rate on each date
 
-Explain how to run the automated tests for this system
+**CREATE view ERROR_RATE AS SELECT a.date,a.num,e.err_requests,(CAST (e.err_requests AS DOUBLE PRECISION)/a.num)*100 as err_rate FROM TOTAL_REQUESTS a,ERROR_REQUESTS e WHERE a.date = e.date;**
 
-### Break down into end to end tests
+### Usage
+To run the code type the following command
+python logAnalysis.py
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+_The Output will be in the same format as shown in the output file in the repository
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+**Manleen Bhatia**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
