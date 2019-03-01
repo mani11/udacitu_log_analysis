@@ -10,15 +10,19 @@ Download the code with git clone https://github.com/mani11/udacity_log_analysis.
 ### Prerequisites
 
 **You should have python 3 installed.** 
+
 _Download link_:https://www.python.org/downloads/
 
 **You need VirtualBox tool to run VM.**
+
 _Download Link_: https://www.virtualbox.org/wiki/Download_Old_Builds_5_2
 
 **You need vagrant to configure the VM**
+
 _Download Link_:https://www.vagrantup.com/downloads.html
 
 Once you have the VMBox and vagrant you need to download the configuration for the VM
+
 _Git link_: https://github.com/udacity/fullstack-nanodegree-vm
 
 After the download,you will have a directory containing the VM files. Change to this directory in your terminal with cd. Inside, you will find another directory called vagrant. Change directory to the vagrant directory:
